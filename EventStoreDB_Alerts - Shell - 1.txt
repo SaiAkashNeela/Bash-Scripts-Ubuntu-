@@ -1,0 +1,37 @@
+# eventstore-alert.sh
+
+# [[ -z `find /var/log/eventstore/0.0.0.0-2113-cluster-node/ -type f -name log-err.json -mmin -1` ]]
+
+today=`date +%d-%m-%Y`
+yesterday=`date -d @$(( $(date +%s) - 86400)) +%d-%m-%Y`
+
+cd /var/log/eventstore/0.0.0.0-2113-cluster-node/
+
+head -1 log-err.json > eventstoredb-alert-$today.json
+
+jq . eventstoredb-alert-$today.json > eventstoredb-logs-$today.json
+
+#content = head -10 /var/log/log-err.json 
+
+#find /var/log/ -type f -name log-err*
+
+[[ -z `find /var/log/eventstore/0.0.0.0-2113-cluster-node/ -type f -name log-err.json -mmin -1` ]]
+
+if [ $? -eq 0 ]
+then
+  echo -e "Everything is Normal!"
+else
+  echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" saiakash.neela@qapita.com <>
+fi
+
+cd /var/log/eventstore/0.0.0.0-2113-cluster-node/
+
+if [ -f "eventstoredb-alert-$yesterday.json" ] ; then
+    rm "eventstoredb-alert-$yesterday.json" "eventstoredb-logs-$yesterday.json"
+else
+    echo "Nothing to remove"
+fi
+
+# rm eventstoredb-alert-$yesterday.json eventstoredb-logs-$yesterday.json
+
+cd

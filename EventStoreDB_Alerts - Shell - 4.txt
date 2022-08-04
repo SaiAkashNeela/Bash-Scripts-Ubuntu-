@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#eventstore.sh
+
+today=`date +%Y%m%d`
+
+yesterday=`date -d @$(( $(date +%s) - 86400)) +%Y%m%d`
+
+cd /eventstoredb-stage-data/log/0.0.0.0-2113-cluster-node/
+
+if [ -e log-err$today.json ]
+then
+  head -1 log-err$today.json > /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
+  jq . /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json > /home/ubuntu/eventstore-mail-logs/eventstored-err$today.json
+  echo "File exists checking logs..." | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err$today.json" saiakash.neela@qapita.com < /home/ubuntu/eventstore-mail-logs/eventstored-err$today.json
+else
+  head -1 log-err.json > /home/ubuntu/eventstore-mail-logs/eventstoredb-alert-$today.json
+  jq . /home/ubuntu/eventstore-mail-logs/eventstoredb-alert-$today.json > /home/ubuntu/eventstore-mail-logs/eventstore-logerr$today.json
+  [[ -z `find /eventstoredb-stage-data/log/0.0.0.0-2113-cluster-node/ -type f -name log-err.json -mmin -1` ]]
+  if [ $? -eq 0 ]
+  then
+    echo -e "Everything is Normal!"
+  else
+    echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err.json" saiakash.neela@qapita.com < /home/ubuntu/eventstore-mail-logs/eventstore-logerr$today.json
+  fi
+fi
+
+cd /home/ubuntu/eventstore-mail-logs/
+
+if [ -f "eventstore-err$yesterday.json" ] ; then
+    rm eventstore-err$yesterday.json
+fi
+
+if [ -f "eventstoredb-alert-$yesterday.json" ] ; then
+    rm "eventstoredb-alert-$yesterday.json" "eventstoredb-logs-$yesterday.json" "eventstore-err$yesterday.json"
+else
+    echo "Removed error files if any"
+fi

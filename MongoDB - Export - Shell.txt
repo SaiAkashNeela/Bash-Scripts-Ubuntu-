@@ -1,0 +1,29 @@
+#!/bin/bash
+
+DB_BACKUP_PATH='backups'
+MONGO_HOST='localhost'
+MONGO_PORT='27017'
+DB_NAME='akash-db'
+file=`date +%m-%d-%Y`
+
+sudo mkdir -p $DB_BACKUP_PATH/$file-mongo
+
+echo "Running backup"
+
+sudo mongodump --port=$MONGO_PORT --db=$DB_NAME --out=$DB_BACKUP_PATH/$file-mongo # --quiet
+
+echo "Backup Successful"
+
+echo "Copying to s3"
+
+cd backups
+
+zip -r $file-mongo.zip $file-mongo
+
+sudo aws s3 cp $file-mongo.zip s3://mongo-123/copies/
+
+rm $file-mongo.zip
+
+rm -rf $file-mongo
+
+echo "Uploaded to s3 and deleted from machine"

@@ -1,0 +1,13 @@
+[[ -z `find /var/log/eventstore/ -type f -name log-err$today -mmin -1` ]] - 1 
+
+
+#find /var/log/ -type f -name log-err*
+
+
+if [ $? -eq 0 ]
+then
+  echo -e "Everything is Good!"
+else
+  echo "New Alert in EventstoreDB!!! Errors Found, Please check!" | mail -s "EventstoreDB Alerts" saiakash.neela@qapita.com
+fi
+

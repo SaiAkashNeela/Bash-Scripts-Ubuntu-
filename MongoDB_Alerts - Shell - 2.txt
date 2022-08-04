@@ -1,0 +1,35 @@
+#!/bin/bash
+# mongo-alert.sh
+
+today=`date +%d-%m-%Y`
+yesterday=`date -d @$(( $(date +%s) - 86400)) +%d-%m-%Y`
+
+cd /var/log/mongodb/
+
+head -1 mongod.log > /root/mongodb-alert-emails/mongodb-alert-$today.json
+
+jq . /root/mongodb-alert-emails/mongodb-alert-$today.json > /root/mongodb-alert-emails/mongodb-logs-$today.json
+
+[[ -z `find /var/log/mongodb/ -type f -name mongod.log -mmin -1` ]]
+
+if [ $? -eq 0 ]
+then
+  echo -e "Everything is Normal!"
+else
+  if (grep '"s": "D"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "W"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "E"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "F"' /root/mongodb-alert-emails/mongodb-logs-$today.json)
+  then
+    echo "New Alert in MongoDB!!!" | mail -a "FROM:MongoDB Alerts" -s "Error logs found in MongoDB" saiakash.neela@qapita.com < /root/mongodb-alert-emails/mongodb-logs-$today.json
+  else
+    echo "Everything is Normal!"
+  fi
+fi
+
+cd /var/log/mongodb/
+
+if [ -f "mongodb-alert-$yesterday.json" ] ; then
+    rm "mongodb-alert-$yesterday.json" "mongodb-logs-$today.json"
+else
+    echo "Nothing to remove"
+fi
+
+cd
