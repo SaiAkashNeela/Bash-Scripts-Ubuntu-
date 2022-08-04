@@ -1,1 +1,5 @@
-# Bash-Scripts-Ubuntu-
+# Bash-Scripts-Ubuntu
+
+#Prerequisites
+
+ssmtp and JQ
