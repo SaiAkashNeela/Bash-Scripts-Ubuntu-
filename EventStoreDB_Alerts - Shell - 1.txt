@@ -21,7 +21,7 @@ if [ $? -eq 0 ]
 then
   echo -e "Everything is Normal!"
 else
-  echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" saiakash.neela@qapita.com <>
+  echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" example@example.com <>
 fi
 
 cd /var/log/eventstore/0.0.0.0-2113-cluster-node/
