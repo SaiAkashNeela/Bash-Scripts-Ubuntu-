@@ -8,6 +8,6 @@ if [ $? -eq 0 ]
 then
   echo -e "Everything is Good!"
 else
-  echo "New Alert in EventstoreDB!!! Errors Found, Please check!" | mail -s "EventstoreDB Alerts" saiakash.neela@qapita.com
+  echo "New Alert in EventstoreDB!!! Errors Found, Please check!" | mail -s "EventstoreDB Alerts" example@example.com
 fi
 
