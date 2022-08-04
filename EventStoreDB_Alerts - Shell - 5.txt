@@ -17,7 +17,7 @@ then
   then
     echo "Log error file with today's date is not created, Everything is fine"
   else
-    echo "File exists checking logs..." | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err$today.json" saiakash.neela@qapita.com < /home/saiakashneela/eventstore-mail-logs/eventstored-err$today.json
+    echo "File exists checking logs..." | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err$today.json" example@example.com < /home/saiakashneela/eventstore-mail-logs/eventstored-err$today.json
   fi
 else
   head -1 log-err.json > /home/saiakashneela/eventstore-mail-logs/eventstoredb-alert-$today.json
@@ -27,7 +27,7 @@ else
   then
     echo -e "Everything is Normal!"
   else
-    echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err.json" saiakash.neela@qapita.com < /home/saiakashneela/eventstore-mail-logs/eventstore-logerr$today.json
+    echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB log-err.json" example@example.com < /home/saiakashneela/eventstore-mail-logs/eventstore-logerr$today.json
   fi
 fi
 
