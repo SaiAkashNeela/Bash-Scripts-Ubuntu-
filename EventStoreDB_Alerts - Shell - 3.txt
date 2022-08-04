@@ -10,7 +10,7 @@ if [ -e log-err$today.json ]
 then
   head -1 log-err$today.json > /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
   jq . eventstore-err$today.json > /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
-  echo "File exists checking logs..." | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" saiakash.neela@qapita.com < /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
+  echo "File exists checking logs..." | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" example@example.com < /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
 else
   head -1 log-err.json > /home/ubuntu/eventstore-mail-logs/eventstoredb-alert-$today.json
   jq . eventstoredb-alert-$today.json > /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
@@ -19,7 +19,7 @@ else
   then
     echo -e "Everything is Normal!"
   else
-    echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" saiakash.neela@qapita.com < /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
+    echo "New Alert in EventstoreDB!!!" | mail -a "FROM:EventStoreDB Alerts" -s "Error logs found in EventStoreDB" example@example.com < /home/ubuntu/eventstore-mail-logs/eventstore-err$today.json
   fi
 fi
 
