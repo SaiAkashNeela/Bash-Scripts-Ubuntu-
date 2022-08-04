@@ -19,7 +19,7 @@ then
 else
   if (grep '"s": "D"' /var/log/mongodb/mongodb-logs-$today.json || grep '"s": "W"' /var/log/mongodb/mongodb-logs-$today.json || grep '"s": "E"' /var/log/mongodb/mongodb-logs-$today.json || grep '"s": "F"' /var/log/mongodb/mongodb-logs-$today.json)
   then
-    echo "New Alert in MongoDB!!!" | mail -a "FROM:MongoDB Alerts" -s "Error logs found in MongoDB" saiakash.neela@qapita.com < /var/log/mongodb/mongodb-logs-$today.json
+    echo "New Alert in MongoDB!!!" | mail -a "FROM:MongoDB Alerts" -s "Error logs found in MongoDB" example@example.com < /var/log/mongodb/mongodb-logs-$today.json
   else
     echo "Everything is Normal!"
   fi
