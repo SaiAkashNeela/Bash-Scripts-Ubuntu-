@@ -18,7 +18,7 @@ then
 else
   if (grep '"s": "D"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "W"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "E"' /root/mongodb-alert-emails/mongodb-logs-$today.json || grep '"s": "F"' /root/mongodb-alert-emails/mongodb-logs-$today.json)
   then
-    echo "New Alert in MongoDB!!!" | mail -a "FROM:MongoDB Alerts" -s "Error logs found in MongoDB" saiakash.neela@qapita.com < /root/mongodb-alert-emails/mongodb-logs-$today.json
+    echo "New Alert in MongoDB!!!" | mail -a "FROM:MongoDB Alerts" -s "Error logs found in MongoDB" example@example.com < /root/mongodb-alert-emails/mongodb-logs-$today.json
   else
     echo "Everything is Normal!"
   fi
